@@ -53,7 +53,7 @@ inventory-management-system/
 ```
 ## Architecture Diagram
 
-![AWS 3-Tier Architecture](./architecture_diagram.png)
+![AWS 3-Tier Architecture](./arch_diag.png)
 
 ---
 
