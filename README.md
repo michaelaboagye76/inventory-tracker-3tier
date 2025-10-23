@@ -30,26 +30,19 @@ A cloud-based inventory management system designed with a 3-tier architecture �
 ## Project Structure
 
 ```
-inventory-management-system/
-├── frontend/
-│   ├── public/
-│   ├── src/
-│   ├── package.json
-│   └── Dockerfile (optional)
+furniture-inventory/
 │
-├── backend/
-│   ├── app.py
-│   ├── requirements.txt
-│   ├── Dockerfile
-│   ├── default.conf
-│   ├── .dockerignore
-│   └── tests/
+├── app.py
+├── requirements.txt
+├── Dockerfile
 │
-├── .github/
-│   └── workflows/
-│       └── deploy.yml
+├── templates/
+│   ├── index.html
+│   └── summary.html
 │
-└── README.md
+└── static/
+    └── background.jpg
+
 ```
 ## Architecture Diagram
 
