@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Furniture Summary</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                  url('{{ url_for('static', filename='background.jpg') }}') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      text-align: center;
+    }
+
+    .nav-btn {
+      position: fixed;
+      left: 25px;
+      top: 25px;
+      background: linear-gradient(90deg, #007bff, #00c6ff);
+      color: white;
+      border: none;
+      padding: 6px 18px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      z-index: 1000;
+      width: 110px;
+    }
+
+    .nav-btn:hover {
+      background: linear-gradient(90deg, #0056b3, #0094cc);
+      transform: scale(1.05);
+    }
+
+    .card {
+      margin: 120px auto;
+      background: rgba(255,255,255,0.1);
+      padding: 30px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 600px;
+      box-shadow: 0 0 10px rgba(255,255,255,0.2);
+    }
+
+    h1 {
+      color: #00c6ff;
+    }
+
+    .summary {
+      font-size: 18px;
+      line-height: 2;
+    }
+  </style>
+</head>
+<body>
+  <button class="nav-btn" onclick="window.location.href='{{ url_for('index') }}'">Go Back</button>
+
+  <div class="card">
+    <h1>Inventory Summary</h1>
+    <div class="summary">
+      <p><strong>Total Items in Stock:</strong> {{ total_items }}</p>
+      <p><strong>Total Categories:</strong> {{ total_categories }}</p>
+      <p><strong>Items Below Reorder Level:</strong> {{ below_reorder }}</p>
+      <p><strong>Total Inventory Value:</strong> ${{ "%.2f"|format(total_value) }}</p>
+    </div>
+  </div>
+</body>
+</html>
