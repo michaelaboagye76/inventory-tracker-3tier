@@ -46,7 +46,7 @@ furniture-inventory/
 ```
 ## Architecture Diagram
 
-![AWS 3-Tier Architecture](./arch_diag.png)
+![AWS 3-Tier Architecture](./3-tier-architecture-diagram.png)
 
 ---
 
