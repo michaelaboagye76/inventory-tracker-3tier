@@ -1,130 +1,69 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Furniture Inventory</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-                  url('{{ url_for('static', filename='background.jpg') }}') no-repeat center center fixed;
-      background-size: cover;
-      color: white;
-      text-align: center;
-    }
-
-    .nav-btn {
-      position: fixed;
-      left: 25px;
-      top: 25px;
-      background: linear-gradient(90deg, #007bff, #00c6ff);
-      color: white;
-      border: none;
-      padding: 6px 18px;
-      border-radius: 4px;
-      font-size: 13px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s, transform 0.2s;
-      z-index: 1000;
-      width: 110px;
-    }
-
-    .nav-btn:hover {
-      background: linear-gradient(90deg, #0056b3, #0094cc);
-      transform: scale(1.05);
-    }
-
-    .card {
-      margin: 100px auto;
-      background: rgba(255,255,255,0.1);
-      padding: 25px;
-      border-radius: 10px;
-      width: 85%;
-      max-width: 900px;
-      box-shadow: 0 0 10px rgba(255,255,255,0.2);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      border: 1px solid #555;
-      padding: 8px;
-    }
-
-    th {
-      background: rgba(0, 123, 255, 0.3);
-    }
-
-    input, button {
-      padding: 5px;
-      border-radius: 4px;
-      border: none;
-    }
-
-    .add-form input {
-      width: 120px;
-    }
-
-    .submit-btn {
-      background: #00c6ff;
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.2s;
-    }
-
-    .submit-btn:hover {
-      background: #007bff;
-    }
-  </style>
+    <title>Appliance Inventory</title>
 </head>
 <body>
-  <button class="nav-btn" onclick="window.location.href='{{ url_for('summary') }}'">View Summary</button>
+    <h1>Appliance Inventory</h1>
 
-  <div class="card">
-    <h1>Furniture Inventory Management</h1>
+    <!-- Flash messages -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul>
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
 
-    <form class="add-form" method="POST" action="/add">
-      <input name="Item_ID" placeholder="ID" required>
-      <input name="Item_Name" placeholder="Name" required>
-      <input name="Category" placeholder="Category" required>
-      <input name="Material" placeholder="Material" required>
-      <input name="Manufacturer" placeholder="Manufacturer" required>
-      <input name="Unit_Price" placeholder="Price" type="number" step="0.01" required>
-      <input name="Quantity_In_Stock" placeholder="Qty" type="number" required>
-      <input name="Reorder_Level" placeholder="Reorder" type="number" required>
-      <input name="Location" placeholder="Location" required>
-      <button type="submit" class="submit-btn">Add Item</button>
+    <!-- Add New Appliance Form -->
+    <h2>Add New Appliance</h2>
+    <form action="{{ url_for('add_appliance') }}" method="POST">
+        <input type="text" name="Appliance_Name" placeholder="Appliance Name" required>
+        <input type="text" name="Category" placeholder="Category" required>
+        <input type="text" name="Brand" placeholder="Brand" required>
+        <input type="text" name="Model_Number" placeholder="Model Number" required>
+        <input type="number" step="0.01" name="Unit_Price" placeholder="Unit Price" required>
+        <input type="number" name="Quantity_In_Stock" placeholder="Quantity" required>
+        <input type="number" name="Reorder_Level" placeholder="Reorder Level" required>
+        <input type="text" name="Warranty_Period" placeholder="Warranty Period" required>
+        <input type="text" name="Location" placeholder="Location" required>
+        <button type="submit">Add Appliance</button>
     </form>
 
-    <table>
-      <thead>
+    <hr>
+
+    <!-- Display Table -->
+    <h2>Current Inventory</h2>
+    <table border="1">
         <tr>
-          <th>ID</th><th>Name</th><th>Category</th><th>Material</th>
-          <th>Manufacturer</th><th>Unit Price</th><th>Qty</th><th>Reorder</th><th>Location</th>
+            <th>ID</th>
+            <th>Appliance Name</th>
+            <th>Category</th>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Unit Price</th>
+            <th>Quantity</th>
+            <th>Actions</th>
         </tr>
-      </thead>
-      <tbody>
-        {% for item in inventory %}
+        {% for item in appliances %}
         <tr>
-          <td>{{ item.Item_ID }}</td>
-          <td>{{ item.Item_Name }}</td>
-          <td>{{ item.Category }}</td>
-          <td>{{ item.Material }}</td>
-          <td>{{ item.Manufacturer }}</td>
-          <td>${{ "%.2f"|format(item.Unit_Price) }}</td>
-          <td>{{ item.Quantity_In_Stock }}</td>
-          <td>{{ item.Reorder_Level }}</td>
-          <td>{{ item.Location }}</td>
+            <td>{{ item.id }}</td>
+            <td>{{ item.Appliance_Name }}</td>
+            <td>{{ item.Category }}</td>
+            <td>{{ item.Brand }}</td>
+            <td>{{ item.Model_Number }}</td>
+            <td>{{ item.Unit_Price }}</td>
+            <td>{{ item.Quantity_In_Stock }}</td>
+            <td>
+                <form action="{{ url_for('delete_appliance', id=item.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" onclick="return confirm('Delete this item?');">Delete</button>
+                </form>
+            </td>
         </tr>
         {% endfor %}
-      </tbody>
     </table>
-  </div>
+
 </body>
 </html>
